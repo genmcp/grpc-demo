@@ -1,0 +1,22 @@
+type: google.api.Service
+config_version: 3
+
+http:
+  rules:
+    - selector: features.FeatureService.ListFeatures
+      get: /features
+    - selector: features.FeatureService.AddFeature
+      post: /features
+      body: "*"
+    - selector: features.FeatureService.GetTopFeature
+      get: /top_feature
+    - selector: features.FeatureService.GetFeature
+      get: /features/{id}
+    - selector: features.FeatureService.DeleteFeature
+      delete: /features/{id}
+    - selector: features.FeatureService.VoteFeature
+      post: /features/vote
+      body: "*"
+    - selector: features.FeatureService.CompleteFeature
+      post: /features/complete
+      body: "*"
