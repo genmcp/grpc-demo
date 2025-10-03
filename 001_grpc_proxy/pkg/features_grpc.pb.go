@@ -35,19 +35,33 @@ const (
 //
 // FeatureService provides access to the feature request data.
 type FeatureServiceClient interface {
-	// Get all features (summaries only, sorted by upvotes)
+	// Get all features
+	//
+	// Returns a list of all features sorted by upvotes (highest first)
 	ListFeatures(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListFeaturesResponse, error)
-	// Get the highest-voted feature (summary only)
+	// Get top feature
+	//
+	// Returns the feature with the most upvotes
 	GetTopFeature(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*FeatureSummary, error)
-	// Get detailed information about a specific feature
+	// Get feature details
+	//
+	// Returns detailed information about a specific feature
 	GetFeature(ctx context.Context, in *GetFeatureRequest, opts ...grpc.CallOption) (*Feature, error)
-	// Add a new feature request
+	// Add new feature
+	//
+	// Create a new feature request
 	AddFeature(ctx context.Context, in *AddFeatureRequest, opts ...grpc.CallOption) (*Feature, error)
-	// Vote for a feature (increases upvotes)
+	// Vote for feature
+	//
+	// Increment the upvote count for a specific feature
 	VoteFeature(ctx context.Context, in *VoteFeatureRequest, opts ...grpc.CallOption) (*Feature, error)
-	// Mark a feature request as completed
+	// Mark feature as completed
+	//
+	// Mark a specific feature request as completed
 	CompleteFeature(ctx context.Context, in *CompleteFeatureRequest, opts ...grpc.CallOption) (*Feature, error)
-	// Delete a feature request
+	// Delete feature
+	//
+	// Delete a specific feature request
 	DeleteFeature(ctx context.Context, in *DeleteFeatureRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
@@ -135,19 +149,33 @@ func (c *featureServiceClient) DeleteFeature(ctx context.Context, in *DeleteFeat
 //
 // FeatureService provides access to the feature request data.
 type FeatureServiceServer interface {
-	// Get all features (summaries only, sorted by upvotes)
+	// Get all features
+	//
+	// Returns a list of all features sorted by upvotes (highest first)
 	ListFeatures(context.Context, *emptypb.Empty) (*ListFeaturesResponse, error)
-	// Get the highest-voted feature (summary only)
+	// Get top feature
+	//
+	// Returns the feature with the most upvotes
 	GetTopFeature(context.Context, *emptypb.Empty) (*FeatureSummary, error)
-	// Get detailed information about a specific feature
+	// Get feature details
+	//
+	// Returns detailed information about a specific feature
 	GetFeature(context.Context, *GetFeatureRequest) (*Feature, error)
-	// Add a new feature request
+	// Add new feature
+	//
+	// Create a new feature request
 	AddFeature(context.Context, *AddFeatureRequest) (*Feature, error)
-	// Vote for a feature (increases upvotes)
+	// Vote for feature
+	//
+	// Increment the upvote count for a specific feature
 	VoteFeature(context.Context, *VoteFeatureRequest) (*Feature, error)
-	// Mark a feature request as completed
+	// Mark feature as completed
+	//
+	// Mark a specific feature request as completed
 	CompleteFeature(context.Context, *CompleteFeatureRequest) (*Feature, error)
-	// Delete a feature request
+	// Delete feature
+	//
+	// Delete a specific feature request
 	DeleteFeature(context.Context, *DeleteFeatureRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedFeatureServiceServer()
 }

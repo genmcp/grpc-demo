@@ -30,6 +30,7 @@ We will run `protoc` three times to generate all the necessary Go code and the O
 First, generate the base gRPC client stubs:
 ```bash
 cp ../000_grpc_server/features.proto .
+
 protoc -I . \
        --go_out=./pkg \
        --go_opt=paths=source_relative \
@@ -38,12 +39,12 @@ protoc -I . \
        ./features.proto
 ```
 
-Next, generate the gRPC-Gateway code, which handles the translation from HTTP to gRPC. This step uses the `features.config.yaml` to map HTTP routes to RPCs.
+Next, generate the gRPC-Gateway code, which handles the translation from HTTP to gRPC. This step uses the `features.gprc.proxy.config.yaml` to map HTTP routes to RPCs.
 ```shell
 protoc -I . \
 --grpc-gateway_out ./pkg \
 --grpc-gateway_opt paths=source_relative \
---grpc-gateway_opt grpc_api_configuration=./features.config.yaml \
+--grpc-gateway_opt grpc_api_configuration=./features.gprc.proxy.config.yaml \
 ./features.proto
 ```
 
@@ -51,7 +52,8 @@ Finally, generate the OpenAPI v2 (Swagger) specification from the same definitio
 ```shell
 protoc -I . \
 --openapiv2_out ./ \
---openapiv2_opt grpc_api_configuration=./features.config.yaml \
+--openapiv2_opt grpc_api_configuration=./features.gprc.proxy.config.yaml \
+--openapiv2_opt openapi_configuration=./features.openapi.config.yaml \
 features.proto
 ```
 
@@ -67,7 +69,7 @@ go mod tidy
 
 ### 3. Run the HTTP Gateway
 
-Ensure the gRPC server from `../000_grpc_server` is running. Then, start the proxy. It will listen for HTTP requests on port `8081` and forward them to the gRPC server on `localhost:50051`.
+Ensure the gRPC server from `../000_grpc_server` is running. Then, start the proxy. It will listen for HTTP requests on port `9090` and forward them to the gRPC server on `localhost:50051`.
 
 ```bash
 go run main.go
@@ -80,36 +82,36 @@ With the proxy running, you can now interact with the gRPC service using standar
 
 **List all features:**
 ```bash
-curl -s localhost:8081/features
+curl -s localhost:9090/features
 ```
 
 **Get a specific feature:**
 ```bash
-curl -s localhost:8081/features/1
+curl -s localhost:9090/features/1
 ```
 
 **Get the top feature:**
 ```bash
-curl -s localhost:8081/top_feature
+curl -s localhost:9090/top_feature
 ```
 
 **Add a new feature:**
 ```bash
-curl -s -X POST -d '{"title": "HTTP Gateway Support", "description": "Access gRPC via REST.", "details": "Use grpc-gateway."}' localhost:8081/features
+curl -s -X POST -d '{"title": "HTTP Gateway Support", "description": "Access gRPC via REST.", "details": "Use grpc-gateway."}' localhost:9090/features
 ```
 
 **Vote for a feature:**
 ```bash
-curl -s -X POST -d '{"feature_id": 1}' localhost:8081/features/vote
+curl -s -X POST -d '{"id": 1}' localhost:9090/features/vote
 ```
 
 **Mark a feature as complete:**
 ```bash
-curl -s -X POST -d '{"feature_id": 2}' localhost:8081/features/complete
+curl -s -X POST -d '{"id": 2}' localhost:9090/features/complete
 ```
 
 **Delete a feature:**
 ```bash
-curl -s -X DELETE localhost:8081/features/3
+curl -s -X DELETE localhost:9090/features/3
 ```
 

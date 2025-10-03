@@ -34,7 +34,7 @@ func run() error {
 	}
 
 	// Start HTTP server (and proxy calls to gRPC server endpoint)
-	return http.ListenAndServe(":8081", mux)
+	return http.ListenAndServe(":9090", mux)
 }
 
 func main() {

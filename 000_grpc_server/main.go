@@ -158,9 +158,9 @@ func (s *server) VoteFeature(ctx context.Context, in *pkg.VoteFeatureRequest) (*
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	feature, exists := s.features[int(in.GetFeatureId())]
+	feature, exists := s.features[int(in.GetId())]
 	if !exists {
-		return nil, status.Errorf(codes.NotFound, "feature with ID %d not found", in.GetFeatureId())
+		return nil, status.Errorf(codes.NotFound, "feature with ID %d not found", in.GetId())
 	}
 
 	feature.Upvotes++
@@ -172,9 +172,9 @@ func (s *server) CompleteFeature(ctx context.Context, in *pkg.CompleteFeatureReq
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	feature, exists := s.features[int(in.GetFeatureId())]
+	feature, exists := s.features[int(in.GetId())]
 	if !exists {
-		return nil, status.Errorf(codes.NotFound, "feature with ID %d not found", in.GetFeatureId())
+		return nil, status.Errorf(codes.NotFound, "feature with ID %d not found", in.GetId())
 	}
 
 	feature.Completed = true

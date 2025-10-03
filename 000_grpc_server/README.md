@@ -79,12 +79,12 @@ grpcurl -plaintext -d '{"title": "gRPC Support", "description": "Add gRPC endpoi
 
 **Vote for a feature:**
 ```bash
-grpcurl -plaintext -d '{"feature_id": 1}' localhost:50051 features.FeatureService/VoteFeature
+grpcurl -plaintext -d '{"id": 1}' localhost:50051 features.FeatureService/VoteFeature
 ```
 
 **Mark a feature as complete:**
 ```bash
-grpcurl -plaintext -d '{"feature_id": 2}' localhost:50051 features.FeatureService/CompleteFeature
+grpcurl -plaintext -d '{"id": 2}' localhost:50051 features.FeatureService/CompleteFeature
 ```
 
 **Delete a feature:**

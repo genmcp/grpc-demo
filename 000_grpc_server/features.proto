@@ -8,37 +8,96 @@ option go_package = "github.com/genmcp/grpc-demo/000_grpc_server/pkg";
 
 // FeatureService provides access to the feature request data.
 service FeatureService {
-  // Get all features (summaries only, sorted by upvotes)
+  // Get all features
+  //
+  // Returns a list of all features sorted by upvotes (highest first)
   rpc ListFeatures(google.protobuf.Empty) returns (ListFeaturesResponse) {}
-  // Get the highest-voted feature (summary only)
+
+  // Get top feature
+  //
+  // Returns the feature with the most upvotes
   rpc GetTopFeature(google.protobuf.Empty) returns (FeatureSummary) {}
-  // Get detailed information about a specific feature
+
+
+  // Get feature details
+  //
+  // Returns detailed information about a specific feature
   rpc GetFeature(GetFeatureRequest) returns (Feature) {}
-  // Add a new feature request
+
+  // Add new feature
+  //
+  // Create a new feature request
   rpc AddFeature(AddFeatureRequest) returns (Feature) {}
-  // Vote for a feature (increases upvotes)
+
+  // Vote for feature
+  //
+  // Increment the upvote count for a specific feature
   rpc VoteFeature(VoteFeatureRequest) returns (Feature) {}
-  // Mark a feature request as completed
+
+  // Mark feature as completed
+  //
+  // Mark a specific feature request as completed
   rpc CompleteFeature(CompleteFeatureRequest) returns (Feature) {}
-  // Delete a feature request
+
+  // Delete feature
+  //
+  // Delete a specific feature request
   rpc DeleteFeature(DeleteFeatureRequest) returns (google.protobuf.Empty) {}
 }
 
 // Represents a detailed feature.
 message Feature {
+  // Id
+  //
+  // Unique identifier for the feature
   int32 id = 1;
+
+  // Title
+  //
+  // Feature title
   string title = 2;
+
+  // Description
+  //
+  // Detailed description of the feature
   string description = 3;
+
+  // Details
+  //
+  // Detailed implementation notes for the feature
   string details = 4;
+
+  // Upvotes
+  //
+  // Number of upvotes received
   int32 upvotes = 5;
+
+  // Completed
+  //
+  // Whether the feature has been completed
   bool completed = 6;
 }
 
 // Represents a summary of a feature.
 message FeatureSummary {
+  // Id
+  //
+  // Unique identifier for the feature
   int32 id = 1;
+
+  // Title
+  //
+  // Feature title
   string title = 2;
+
+  // Upvotes
+  //
+  // Number of upvotes received
   int32 upvotes = 3;
+
+  // Completed
+  //
+  // Whether the feature has been completed
   bool completed = 4;
 }
 
@@ -49,23 +108,43 @@ message GetFeatureRequest {
 
 // Request to add a new feature.
 message AddFeatureRequest {
+  // Title
+  //
+  // Feature title
   string title = 1;
+
+  // Description
+  //
+  // Detailed description of the feature
   string description = 2;
+
+  // Details
+  //
+  // Detailed implementation notes for the feature
   string details = 3;
 }
 
 // Request to vote for a feature.
 message VoteFeatureRequest {
-  int32 feature_id = 1;
+  // Feature ID
+  //
+  // ID of the feature to vote for
+  int32 id = 1;
 }
 
 // Request to mark a feature as complete.
 message CompleteFeatureRequest {
-  int32 feature_id = 1;
+  // Feature ID
+  //
+  // ID of the feature to mark as completed
+  int32 id = 1;
 }
 
 // Request to delete a feature.
 message DeleteFeatureRequest {
+  // Feature ID
+  //
+  // Feature ID to delete
   int32 id = 1;
 }
 

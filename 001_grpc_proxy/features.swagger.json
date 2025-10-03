@@ -1,8 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "features.proto",
-    "version": "version not set"
+    "title": "Feature Request API",
+    "description": "A simple API for managing feature requests with voting functionality",
+    "version": "1.0.0"
   },
   "tags": [
     {
@@ -18,7 +19,8 @@
   "paths": {
     "/features": {
       "get": {
-        "summary": "Get all features (summaries only, sorted by upvotes)",
+        "summary": "Get all features",
+        "description": "Returns a list of all features sorted by upvotes (highest first)",
         "operationId": "FeatureService_ListFeatures",
         "responses": {
           "200": {
@@ -39,7 +41,8 @@
         ]
       },
       "post": {
-        "summary": "Add a new feature request",
+        "summary": "Add new feature",
+        "description": "Create a new feature request",
         "operationId": "FeatureService_AddFeature",
         "responses": {
           "200": {
@@ -73,7 +76,8 @@
     },
     "/features/complete": {
       "post": {
-        "summary": "Mark a feature request as completed",
+        "summary": "Mark feature as completed",
+        "description": "Mark a specific feature request as completed",
         "operationId": "FeatureService_CompleteFeature",
         "responses": {
           "200": {
@@ -107,7 +111,8 @@
     },
     "/features/vote": {
       "post": {
-        "summary": "Vote for a feature (increases upvotes)",
+        "summary": "Vote for feature",
+        "description": "Increment the upvote count for a specific feature",
         "operationId": "FeatureService_VoteFeature",
         "responses": {
           "200": {
@@ -141,7 +146,8 @@
     },
     "/features/{id}": {
       "get": {
-        "summary": "Get detailed information about a specific feature",
+        "summary": "Get feature details",
+        "description": "Returns detailed information about a specific feature",
         "operationId": "FeatureService_GetFeature",
         "responses": {
           "200": {
@@ -171,7 +177,8 @@
         ]
       },
       "delete": {
-        "summary": "Delete a feature request",
+        "summary": "Delete feature",
+        "description": "Delete a specific feature request",
         "operationId": "FeatureService_DeleteFeature",
         "responses": {
           "200": {
@@ -191,6 +198,7 @@
         "parameters": [
           {
             "name": "id",
+            "description": "Feature ID\n\nFeature ID to delete",
             "in": "path",
             "required": true,
             "type": "integer",
@@ -204,7 +212,8 @@
     },
     "/top_feature": {
       "get": {
-        "summary": "Get the highest-voted feature (summary only)",
+        "summary": "Get top feature",
+        "description": "Returns the feature with the most upvotes",
         "operationId": "FeatureService_GetTopFeature",
         "responses": {
           "200": {
@@ -231,13 +240,19 @@
       "type": "object",
       "properties": {
         "title": {
-          "type": "string"
+          "type": "string",
+          "description": "Feature title",
+          "title": "Title"
         },
         "description": {
-          "type": "string"
+          "type": "string",
+          "description": "Detailed description of the feature",
+          "title": "Description"
         },
         "details": {
-          "type": "string"
+          "type": "string",
+          "description": "Detailed implementation notes for the feature",
+          "title": "Details"
         }
       },
       "description": "Request to add a new feature."
@@ -245,9 +260,11 @@
     "featuresCompleteFeatureRequest": {
       "type": "object",
       "properties": {
-        "featureId": {
+        "id": {
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "description": "ID of the feature to mark as completed",
+          "title": "Feature ID"
         }
       },
       "description": "Request to mark a feature as complete."
@@ -257,23 +274,35 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "description": "Unique identifier for the feature",
+          "title": "Id"
         },
         "title": {
-          "type": "string"
+          "type": "string",
+          "description": "Feature title",
+          "title": "Title"
         },
         "description": {
-          "type": "string"
+          "type": "string",
+          "description": "Detailed description of the feature",
+          "title": "Description"
         },
         "details": {
-          "type": "string"
+          "type": "string",
+          "description": "Detailed implementation notes for the feature",
+          "title": "Details"
         },
         "upvotes": {
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "description": "Number of upvotes received",
+          "title": "Upvotes"
         },
         "completed": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Whether the feature has been completed",
+          "title": "Completed"
         }
       },
       "description": "Represents a detailed feature."
@@ -283,17 +312,25 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "description": "Unique identifier for the feature",
+          "title": "Id"
         },
         "title": {
-          "type": "string"
+          "type": "string",
+          "description": "Feature title",
+          "title": "Title"
         },
         "upvotes": {
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "description": "Number of upvotes received",
+          "title": "Upvotes"
         },
         "completed": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Whether the feature has been completed",
+          "title": "Completed"
         }
       },
       "description": "Represents a summary of a feature."
@@ -314,9 +351,11 @@
     "featuresVoteFeatureRequest": {
       "type": "object",
       "properties": {
-        "featureId": {
+        "id": {
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "description": "ID of the feature to vote for",
+          "title": "Feature ID"
         }
       },
       "description": "Request to vote for a feature."

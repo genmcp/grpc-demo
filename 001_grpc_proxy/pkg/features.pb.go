@@ -24,13 +24,31 @@ const (
 
 // Represents a detailed feature.
 type Feature struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Details       string                 `protobuf:"bytes,4,opt,name=details,proto3" json:"details,omitempty"`
-	Upvotes       int32                  `protobuf:"varint,5,opt,name=upvotes,proto3" json:"upvotes,omitempty"`
-	Completed     bool                   `protobuf:"varint,6,opt,name=completed,proto3" json:"completed,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Id
+	//
+	// Unique identifier for the feature
+	Id int32 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	// Title
+	//
+	// Feature title
+	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	// Description
+	//
+	// Detailed description of the feature
+	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	// Details
+	//
+	// Detailed implementation notes for the feature
+	Details string `protobuf:"bytes,4,opt,name=details,proto3" json:"details,omitempty"`
+	// Upvotes
+	//
+	// Number of upvotes received
+	Upvotes int32 `protobuf:"varint,5,opt,name=upvotes,proto3" json:"upvotes,omitempty"`
+	// Completed
+	//
+	// Whether the feature has been completed
+	Completed     bool `protobuf:"varint,6,opt,name=completed,proto3" json:"completed,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -109,11 +127,23 @@ func (x *Feature) GetCompleted() bool {
 
 // Represents a summary of a feature.
 type FeatureSummary struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
-	Upvotes       int32                  `protobuf:"varint,3,opt,name=upvotes,proto3" json:"upvotes,omitempty"`
-	Completed     bool                   `protobuf:"varint,4,opt,name=completed,proto3" json:"completed,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Id
+	//
+	// Unique identifier for the feature
+	Id int32 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	// Title
+	//
+	// Feature title
+	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	// Upvotes
+	//
+	// Number of upvotes received
+	Upvotes int32 `protobuf:"varint,3,opt,name=upvotes,proto3" json:"upvotes,omitempty"`
+	// Completed
+	//
+	// Whether the feature has been completed
+	Completed     bool `protobuf:"varint,4,opt,name=completed,proto3" json:"completed,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -223,10 +253,19 @@ func (x *GetFeatureRequest) GetId() int32 {
 
 // Request to add a new feature.
 type AddFeatureRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Title         string                 `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
-	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	Details       string                 `protobuf:"bytes,3,opt,name=details,proto3" json:"details,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Title
+	//
+	// Feature title
+	Title string `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
+	// Description
+	//
+	// Detailed description of the feature
+	Description string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	// Details
+	//
+	// Detailed implementation notes for the feature
+	Details       string `protobuf:"bytes,3,opt,name=details,proto3" json:"details,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -284,8 +323,11 @@ func (x *AddFeatureRequest) GetDetails() string {
 
 // Request to vote for a feature.
 type VoteFeatureRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	FeatureId     int32                  `protobuf:"varint,1,opt,name=feature_id,json=featureId,proto3" json:"feature_id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Feature ID
+	//
+	// ID of the feature to vote for
+	Id            int32 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -320,17 +362,20 @@ func (*VoteFeatureRequest) Descriptor() ([]byte, []int) {
 	return file_features_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *VoteFeatureRequest) GetFeatureId() int32 {
+func (x *VoteFeatureRequest) GetId() int32 {
 	if x != nil {
-		return x.FeatureId
+		return x.Id
 	}
 	return 0
 }
 
 // Request to mark a feature as complete.
 type CompleteFeatureRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	FeatureId     int32                  `protobuf:"varint,1,opt,name=feature_id,json=featureId,proto3" json:"feature_id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Feature ID
+	//
+	// ID of the feature to mark as completed
+	Id            int32 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -365,17 +410,20 @@ func (*CompleteFeatureRequest) Descriptor() ([]byte, []int) {
 	return file_features_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *CompleteFeatureRequest) GetFeatureId() int32 {
+func (x *CompleteFeatureRequest) GetId() int32 {
 	if x != nil {
-		return x.FeatureId
+		return x.Id
 	}
 	return 0
 }
 
 // Request to delete a feature.
 type DeleteFeatureRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Feature ID
+	//
+	// Feature ID to delete
+	Id            int32 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -484,13 +532,11 @@ const file_features_proto_rawDesc = "" +
 	"\x11AddFeatureRequest\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x18\n" +
-	"\adetails\x18\x03 \x01(\tR\adetails\"3\n" +
-	"\x12VoteFeatureRequest\x12\x1d\n" +
-	"\n" +
-	"feature_id\x18\x01 \x01(\x05R\tfeatureId\"7\n" +
-	"\x16CompleteFeatureRequest\x12\x1d\n" +
-	"\n" +
-	"feature_id\x18\x01 \x01(\x05R\tfeatureId\"&\n" +
+	"\adetails\x18\x03 \x01(\tR\adetails\"$\n" +
+	"\x12VoteFeatureRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\"(\n" +
+	"\x16CompleteFeatureRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\"&\n" +
 	"\x14DeleteFeatureRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\"N\n" +
 	"\x14ListFeaturesResponse\x126\n" +
