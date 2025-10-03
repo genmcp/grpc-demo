@@ -1,154 +1,37 @@
-# Feature Request gRPC Service
+# gRPC to HTTP/JSON Proxy Demo
 
-This directory contains a gRPC version of the Feature Request API (https://github.com/genmcp/gen-mcp/tree/main/examples/http-conversion), with feature parity to the HTTP server.
+This project demonstrates how to create a RESTful HTTP/JSON proxy for an existing gRPC service using [gRPC-Gateway](https://github.com/grpc-ecosystem/grpc-gateway).
 
-## Prerequisites
+The key idea is to show that you can add a RESTful API front-end to a gRPC service **without modifying the original service's code**. The only requirement is having access to the service's `.proto` definition files.
 
-- Go (1.19+)
-- Protocol Buffer Compiler (`protoc`), version 3+
-- Go plugins for the protocol compiler:
-  ```bash
-  go install google.golang.org/protobuf/cmd/protoc-gen-go
-  go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
-  go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway
-  go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2
-  ```
-- Ensure your `$GOPATH/bin` directory is in your `PATH`.
-- `grpcurl` for testing (optional).
+## Project Structure
+
+This repository is split into two distinct parts to simulate a real-world scenario where the gRPC service might be maintained by a different team or exist as a legacy component.
+
+-   `000_grpc_server/`: A standalone gRPC service for managing feature requests. This represents the existing service that we don't want to (or can't) modify.
+-   `001_grpc_proxy/`: An HTTP/JSON proxy that translates RESTful API calls into gRPC requests and forwards them to the gRPC service.
+
+## How it Works
+
+1.  The **gRPC Server** (`000_grpc_server`) is a standard Go gRPC application. It defines its service and messages using a `features.proto` file and implements the service logic.
+2.  The **gRPC Proxy** (`001_grpc_proxy`) uses the *same* `features.proto` file to generate not only the client stubs but also a reverse proxy server.
+3.  We add annotations to a configuration file (`features.config.yaml`) to map HTTP methods and URL paths to the gRPC service's RPCs.
+4.  `protoc` with the `protoc-gen-grpc-gateway` plugin reads the `.proto` file and the YAML configuration to generate a Go module (`pkg/features.pb.gw.go`) that handles the HTTP-to-gRPC translation.
+5.  The proxy's `main.go` simply starts an HTTP server and registers this generated gateway handler.
 
 ## Getting Started
 
-### 1. Generate Go code from Protobuf
+To run this demo, you will first need to start the gRPC server and then start the HTTP proxy.
 
-From this directory run the following command to generate the gRPC server and client stubs:
+1.  **Start the gRPC Server:**
+  -   Navigate to the `000_grpc_server` directory.
+  -   Follow the instructions in `000_grpc_server/README.md`.
 
-```bash
-protoc --go_out=./pkg \ 
-       --go_opt=paths=source_relative \
-       --go-grpc_out=./pkg \ 
-       --go-grpc_opt=paths=source_relative \
-       features.proto
-```
+2.  **Start the HTTP Proxy:**
+  -   Navigate to the `001_grpc_proxy` directory.
+  -   Follow the instructions in `001_grpc_proxy/README.md`.
 
-This will create `pkg/features.pb.go` and `pkg/features_grpc.pb.go`.
-
-### 2. Tidy Dependencies
-
-Download the necessary Go modules:
-
-```bash
-go mod tidy
-```
-
-### 3. Run the gRPC Server
-
-```bash
-go run cmd/grpc/main.go
-```
-
-The gRPC server will start and listen on port `50051`.
-
-### 4. Test the Service (using `grpcurl`)
-
-You can test the running server using a tool like `grpcurl`.
-
-**List all features:**
-```bash
-grpcurl -plaintext localhost:50051 features.FeatureService/ListFeatures
-```
-
-**Get a specific feature:**
-```bash
-grpcurl -plaintext -d '{"id": 1}' localhost:50051 features.FeatureService/GetFeature
-```
-
-**Get the top feature:**
-```bash
-grpcurl -plaintext localhost:50051 features.FeatureService/GetTopFeature
-```
-
-**Add a new feature:**
-```bash
-grpcurl -plaintext -d '{"title": "gRPC Support", "description": "Add gRPC endpoints for all services.", "details": "Use protobuf to define the service."}' localhost:50051 features.FeatureService/AddFeature
-```
-
-**Vote for a feature:**
-```bash
-grpcurl -plaintext -d '{"feature_id": 1}' localhost:50051 features.FeatureService/VoteFeature
-```
-
-**Mark a feature as complete:**
-```bash
-grpcurl -plaintext -d '{"feature_id": 2}' localhost:50051 features.FeatureService/CompleteFeature
-```
-
-**Delete a feature:**
-```bash
-grpcurl -plaintext -d '{"id": 3}' localhost:50051 features.FeatureService/DeleteFeature
-```
-
-### 5. Create the HTTP Gateway
-
-**Generate the grpc-gateway stubs:**
-```shell
-protoc -I . \
---grpc-gateway_out ./pkg \
---grpc-gateway_opt paths=source_relative \
---grpc-gateway_opt grpc_api_configuration=./features.config.yaml \
-features.proto
-```
-
-**Generate the OpenAPI (Swagger) specification:**
-```shell
-protoc -I . \
---openapiv2_out ./ \
---openapiv2_opt grpc_api_configuration=./features.config.yaml \
-features.proto
-```
-
-**Run the HTTP Gateway:**
-```bash
-go run cmd/proxy/main.go
-```
-
-## 6. Test the Service (using `curl`)
-
-**List all features:**
-```bash
-curl -s localhost:8081/features
-```
-
-**Get a specific feature:**
-```bash
-curl -s localhost:8081/features/1
-```
-
-**Get the top feature:**
-```bash
-curl -s localhost:8081/top_feature
-```
-
-**Add a new feature:**
-```bash
-curl -s -X POST -d '{"title": "HTTP Gateway Support", "description": "Access gRPC via REST.", "details": "Use grpc-gateway."}' localhost:8081/features
-```
-
-**Vote for a feature:**
-```bash
-curl -s -X POST -d '{"feature_id": 1}' localhost:8081/features/vote
-```
-
-**Mark a feature as complete:**
-```bash
-curl -s -X POST -d '{"feature_id": 2}' localhost:8081/features/complete
-```
-
-**Delete a feature:**
-```bash
-curl -s -X DELETE localhost:8081/features/3
-```
-
+Once both are running, you can make gRPC calls to port `50051` (using `grpcurl`) and RESTful API calls to port `8081` (using `curl`).
 
 TODO:
-- Actually, let's move the GRPC server to another repository - or another directory in this repo.
-  - Our point is that you don't have to change your proto files or your GRPC server code to get HTTP endpoints.
+- Diagrams

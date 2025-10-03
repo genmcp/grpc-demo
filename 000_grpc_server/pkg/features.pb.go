@@ -504,7 +504,7 @@ const file_features_proto_rawDesc = "" +
 	"AddFeature\x12\x1b.features.AddFeatureRequest\x1a\x11.features.Feature\"\x00\x12@\n" +
 	"\vVoteFeature\x12\x1c.features.VoteFeatureRequest\x1a\x11.features.Feature\"\x00\x12H\n" +
 	"\x0fCompleteFeature\x12 .features.CompleteFeatureRequest\x1a\x11.features.Feature\"\x00\x12I\n" +
-	"\rDeleteFeature\x12\x1e.features.DeleteFeatureRequest\x1a\x16.google.protobuf.Empty\"\x00B!Z\x1fgithub.com/genmcp/grpc-demo/pkgb\x06proto3"
+	"\rDeleteFeature\x12\x1e.features.DeleteFeatureRequest\x1a\x16.google.protobuf.Empty\"\x00B1Z/github.com/genmcp/grpc-demo/000_grpc_server/pkgb\x06proto3"
 
 var (
 	file_features_proto_rawDescOnce sync.Once

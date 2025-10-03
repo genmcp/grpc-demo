@@ -8,7 +8,7 @@ import (
 	"sort"
 	"sync"
 
-	pkg "github.com/genmcp/grpc-demo/pkg"
+	pkg "github.com/genmcp/grpc-demo/000_grpc_server/pkg"
 	"google.golang.org/grpc/reflection"
 
 	"google.golang.org/grpc"

@@ -4,7 +4,7 @@ package features;
 
 import "google/protobuf/empty.proto";
 
-option go_package = "github.com/genmcp/grpc-demo/pkg";
+option go_package = "github.com/genmcp/grpc-demo/000_grpc_server/pkg";
 
 // FeatureService provides access to the feature request data.
 service FeatureService {

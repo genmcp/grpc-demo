@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/grpclog"
 
-	pkg "github.com/genmcp/grpc-demo/pkg"
+	"github.com/genmcp/grpc-demo/001_grpc_proxy/pkg"
 )
 
 var (
