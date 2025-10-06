@@ -19,22 +19,15 @@ tools:
 - description: Create a new feature request
   inputSchema:
     properties:
-      body:
-        description: Request to add a new feature.
-        properties:
-          description:
-
-            description: Detailed description of the feature
-            type: string
-          details:
-            description: Detailed implementation notes for the feature
-            type: string
-          title:
-            description: Feature title
-            type: string
-        type: object
-    required:
-    - body
+      description:
+        description: Detailed description of the feature
+        type: string
+      details:
+        description: Detailed implementation notes for the feature
+        type: string
+      title:
+        description: Feature title
+        type: string
     type: object
   invocation:
     http:
@@ -45,15 +38,9 @@ tools:
 - description: Mark a specific feature request as completed
   inputSchema:
     properties:
-      body:
-        description: Request to mark a feature as complete.
-        properties:
-          id:
-            description: ID of the feature to mark as completed
-            type: integer
-        type: object
-    required:
-    - body
+      id:
+        description: ID of the feature to mark as completed
+        type: integer
     type: object
   invocation:
     http:
@@ -64,15 +51,9 @@ tools:
 - description: Increment the upvote count for a specific feature
   inputSchema:
     properties:
-      body:
-        description: Request to vote for a feature.
-        properties:
-          id:
-            description: ID of the feature to vote for
-            type: integer
-        type: object
-    required:
-    - body
+      id:
+        description: ID of the feature to vote for
+        type: integer
     type: object
   invocation:
     http:
