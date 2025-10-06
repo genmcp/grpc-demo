@@ -8,11 +8,11 @@ The service is taken from https://github.com/genmcp/gen-mcp/tree/main/examples/h
 
 ## Prerequisites
 
-- Go (1.19+)
+- Go (1.24+)
 - Protocol Buffer Compiler (`protoc`), version 3+
 - Go plugins for the protocol compiler:
   ```bash
-  # need to run this to resolve dependencies
+  # Ensure dependencies are available for the tools
   go mod tidy
   go install google.golang.org/protobuf/cmd/protoc-gen-go
   go install google.golang.org/grpc/cmd/protoc-gen-go-grpc

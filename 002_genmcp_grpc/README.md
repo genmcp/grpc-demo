@@ -2,7 +2,9 @@
 
 This directory contains the configuration to expose the gRPC service (via its HTTP proxy) as a set of tools that AI models can consume using [gen-mcp](https://github.com/genmcp/gen-mcp).
 
-The `mcpfile.yaml` in this directory defines how HTTP endpoints from the proxy are mapped to MCP tools.
+`gen-mcp` is a command-line tool that helps you create and run servers that conform to the **Model-Context Protocol (MCP)**. This protocol standardizes how AI models discover and invoke external tools.
+
+The `mcpfile.yaml` in this directory defines how HTTP endpoints from the proxy are mapped to MCP tools that an AI model can understand and use.
 
 ## Prerequisites
 
@@ -23,7 +25,7 @@ genmcp convert ../001_grpc_proxy/features.swagger.json \
   -o mcpfile.yaml
 ```
 
-This command reads the swagger file from the proxy directory, sets the base URL for the API calls, and generates the `mcpfile.yaml` in the current directory. You can then customize the generated file to improve tool descriptions, add examples, or change which endpoints are exposed.
+This command reads the swagger file, sets the base URL for the API calls, and generates the `mcpfile.yaml`. You can then customize this file to improve tool descriptions, add examples, or change which endpoints are exposed.
 
 ### 2. Run the MCP Server
 
@@ -37,14 +39,17 @@ The MCP server will start on port `8080` (as configured in `mcpfile.yaml`). Now,
 
 ## 3. Testing the MCP Service
 
-You can test the MCP server using any MCP client.
+You can test the MCP server using any MCP client, such as the [MCP Inspector](https://github.com/modelcontextprotocol/inspector).
 
-Using https://github.com/modelcontextprotocol/inspector
+Using the MCP Inspector:
 ```shell
+# Requires nvm/node
 nvm use 22
 npx @modelcontextprotocol/inspector
-# localhost:6274 will be opened on your browser 
-# In the UI, connect to the MCP server:
-# - Transport Type: Streamable HTTP
-# - MCP URL: http://localhost:8080/mcp
 ```
+- A browser window will open to `localhost:6274`.
+- In the UI, connect to the MCP server with the following settings:
+    - **Transport Type**: `Streamable HTTP`
+    - **MCP URL**: `http://localhost:8080/mcp`
+
+You can now inspect the available tools and invoke them directly from the UI.
