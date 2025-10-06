@@ -1,8 +1,14 @@
-# gRPC to HTTP/JSON Proxy Demo
+# Exposing gRPC Services to LLMs with the Model-Context Protocol (MCP)
 
-This project demonstrates how to create a RESTful HTTP/JSON proxy for an existing gRPC service using [gRPC-Gateway](https://github.com/grpc-ecosystem/grpc-gateway) and subsequently expose it as a set of tools for AI models using [gen-mcp](https://github.com/genmcp/gen-mcp).
+This project demonstrates a complete, end-to-end pattern for exposing an existing gRPC service to Large Language Models (LLMs) as a set of callable tools.
 
-The key objective is to show that you can add a RESTful API front-end to a gRPC service **without modifying the original service's code**. The only requirement is access to the service's `.proto` definition files.
+The core challenge addressed is bridging the gap between binary, strongly-typed gRPC interfaces and the JSON-based tool-use APIs expected by modern AI models. 
+
+This is achieved by using [gRPC-Gateway](https://github.com/grpc-ecosystem/grpc-gateway) to create a RESTful HTTP/JSON proxy for the gRPC service, and then using [gen-mcp](https://github.com/genmcp/gen-mcp) to expose that HTTP API to AI models via the Model-Context Protocol.
+
+The key objective is to show that you can make a gRPC service available to an AI **without modifying the original service's code**. The only requirement is access to the service's `.proto` definition files.
+
+While we're using [gen-mcp](https://github.com/genmcp/gen-mcp) to expose the HTTP proxy as MCP, you can use your own MCP solution to achieve the same.
 
 ## Technology Stack
 
@@ -20,7 +26,7 @@ The demo consists of three independent services that run simultaneously:
 2.  **HTTP Proxy**: The gRPC-Gateway server that exposes a RESTful API.
 3.  **MCP Server**: The `gen-mcp` server that exposes the RESTful API as tools for AI.
 
-The flow of a request from an AI model is as follows:
+The flow of a request from an AI model to the core gRPC service is as follows:
 
 ```mermaid
 sequenceDiagram
