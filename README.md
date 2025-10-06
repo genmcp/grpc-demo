@@ -12,6 +12,18 @@ While we're using [gen-mcp](https://github.com/genmcp/gen-mcp) to expose the HTT
 
 ## Technology Stack
 
+## Motivation: Why This Approach?
+
+The ultimate goal is to allow AI models to call gRPC services directly through the Model-Context Protocol. However, adding native gRPC support to a tool like `gen-mcp` is complex. As discussed in [this `gen-mcp` issue](https://github.com/genmcp/gen-mcp/issues/145), challenges include:
+
+- **Protocol Mismatch**: LLMs interact with tools via JSON, whereas gRPC uses the binary Protocol Buffers format. A translation layer is required.
+- **Schema Representation**: How do you define gRPC messages, services, and data types within a YAML `mcpfile` in a way that is both comprehensive and user-friendly?
+- **Dynamic Invocation**: Calling gRPC services dynamically without pre-generating client stubs requires mechanisms like gRPC reflection or manual handling of protoset files, each with its own trade-offs in performance and complexity.
+
+While native support is a long-term goal, this demo presents a robust, production-ready pattern to unblock developers **today**.
+
+By converting the gRPC service into a standard OpenAPI-compliant REST API using gRPC-Gateway, we transform the problem into one that `gen-mcp` already solves elegantly. This layered approach provides a stable and immediate solution for integrating existing gRPC infrastructure with AI models.
+
 *   **Go**: The language used for both the gRPC server and the HTTP proxy.
 *   **gRPC**: The primary RPC framework for the core service.
 *   **Protocol Buffers**: The interface definition language for the gRPC service.
