@@ -10,8 +10,6 @@ The key objective is to show that you can make a gRPC service available to an AI
 
 While we're using [gen-mcp](https://github.com/genmcp/gen-mcp) to expose the HTTP proxy as MCP, you can use your own MCP solution to achieve the same.
 
-## Technology Stack
-
 ## Motivation: Why This Approach?
 
 The ultimate goal is to allow AI models to call gRPC services directly through the Model-Context Protocol. However, adding native gRPC support to a tool like `gen-mcp` is complex. As discussed in [this `gen-mcp` issue](https://github.com/genmcp/gen-mcp/issues/145), challenges include:
@@ -23,6 +21,8 @@ The ultimate goal is to allow AI models to call gRPC services directly through t
 While native support is a long-term goal, this demo presents a robust, production-ready pattern to unblock developers **today**.
 
 By converting the gRPC service into a standard OpenAPI-compliant REST API using gRPC-Gateway, we transform the problem into one that `gen-mcp` already solves elegantly. This layered approach provides a stable and immediate solution for integrating existing gRPC infrastructure with AI models.
+
+## Technology Stack
 
 *   **Go**: The language used for both the gRPC server and the HTTP proxy.
 *   **gRPC**: The primary RPC framework for the core service.
